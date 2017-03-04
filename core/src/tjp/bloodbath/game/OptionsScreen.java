@@ -7,6 +7,7 @@ import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
 import tjp.wiji.gui.GUIText;
 import tjp.wiji.gui.Screen;
+import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextCollection;
 import tjp.wiji.gui.TextCollection;
 import tjp.wiji.representations.Graphic;
@@ -21,8 +22,8 @@ import tjp.wiji.representations.ImageRepresentation;
  * @version     %I%, %G%
  */
 public class OptionsScreen extends Screen { 
-    public OptionsScreen(BitmapContext graphicsContext) {
-        super(graphicsContext);
+    public OptionsScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+        super(graphicsContext, screenContext);
         
         ScreenTextCollection placeholder = 
                 new ScreenTextCollection(graphicsContext, TextCollection.DEFAULT_ACTIVE_COLOR, 37,0);
@@ -41,22 +42,11 @@ public class OptionsScreen extends Screen {
     public void handleEvent(GameEvent event) {
         switch(event.getIntCode()) {
             case Keys.ESCAPE:
-                break;
-            case Keys.PLUS:
-                break;
-            case Keys.MINUS:
-                break;
-            case Keys.T:
-                break;
-            case Keys.D:
-                break;
-            case Keys.ENTER:
+                stepScreenBackwards();
                 break;
         } 
     }
 
     @Override
-    public void handleFrameChange() {
-        
-    }
+    protected void handleFrameChange() { }
 }

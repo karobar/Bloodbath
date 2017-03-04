@@ -8,6 +8,7 @@ import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
 import tjp.wiji.gui.GUIText;
 import tjp.wiji.gui.Screen;
+import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextCollection;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
@@ -23,16 +24,13 @@ import tjp.wiji.representations.ImageRepresentation;
 public class TitleScreen extends Screen {    
     ScreenTextCollection mainMenuChoices;
     
-    BitmapContext bitmapContext;
-    
     final String NEW_GAME = "START";
     final String LOAD_GAME = "LOAD";
     final String OPTIONS   = "OPTIONS";
     final String EXIT_GAME = "EXIT";
     
-    public TitleScreen(BitmapContext graphicsContext) {
-        super(graphicsContext);
-        this.bitmapContext = graphicsContext;
+    public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+        super(graphicsContext, screenContext);
         
         addGUIelement(ScreenTextCollection.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -76,7 +74,7 @@ public class TitleScreen extends Screen {
     // on enter
     private void handleSelection() {     
         if(mainMenuChoices.getCurrentChoiceName().equals(OPTIONS)) {
-            //stepScreenForwards(new OptionsScreen(bitmapContext));
+            stepScreenForwards(new OptionsScreen(getBitmapContext(), getScreenContext()));
         }
         else if (mainMenuChoices.getCurrentChoiceName().equals(EXIT_GAME)) {
             System.exit(0);
