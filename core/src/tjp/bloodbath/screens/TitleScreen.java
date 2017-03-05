@@ -1,4 +1,4 @@
-package tjp.bloodbath.game;
+package tjp.bloodbath.screens;
 
 import com.badlogic.gdx.Input.Keys;
 
@@ -24,10 +24,9 @@ import tjp.wiji.representations.ImageRepresentation;
 public class TitleScreen extends Screen {    
     ScreenTextCollection mainMenuChoices;
     
-    final String NEW_GAME = "START";
-    final String LOAD_GAME = "LOAD";
-    final String OPTIONS   = "OPTIONS";
-    final String EXIT_GAME = "EXIT";
+    private static final GUIText TUTORIAL = new GUIText("TUTORIAL");
+    private static final GUIText OPTIONS   = new GUIText("OPTIONS");
+    private static final GUIText EXIT_GAME = new GUIText("EXIT");
     
     public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
         super(graphicsContext, screenContext);
@@ -44,8 +43,9 @@ public class TitleScreen extends Screen {
                 .inactiveColor(Color.GRAY).activeColor(Color.RED)
                 .centered().y(11)
                 .build();
-        mainMenuChoices.add(new GUIText(OPTIONS));
-        mainMenuChoices.add(new GUIText(EXIT_GAME));
+        mainMenuChoices.add(TUTORIAL);
+        mainMenuChoices.add(OPTIONS);
+        mainMenuChoices.add(EXIT_GAME);
         addGUIelement(mainMenuChoices);
     }
     
@@ -73,10 +73,11 @@ public class TitleScreen extends Screen {
     
     // on enter
     private void handleSelection() {     
-        if(mainMenuChoices.getCurrentChoiceName().equals(OPTIONS)) {
+        if (mainMenuChoices.getCurrentChoice().equals(TUTORIAL)) {
+            stepScreenForwards(new TutorialScreen(getBitmapContext(), getScreenContext()));
+        } else if (mainMenuChoices.getCurrentChoice().equals(OPTIONS)) {
             stepScreenForwards(new OptionsScreen(getBitmapContext(), getScreenContext()));
-        }
-        else if (mainMenuChoices.getCurrentChoiceName().equals(EXIT_GAME)) {
+        } else if (mainMenuChoices.getCurrentChoice().equals(EXIT_GAME)) {
             System.exit(0);
         }
     }

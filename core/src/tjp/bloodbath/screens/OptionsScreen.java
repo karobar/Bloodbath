@@ -1,4 +1,4 @@
-package tjp.bloodbath.game;
+package tjp.bloodbath.screens;
 
 import com.badlogic.gdx.Input.Keys;
 
@@ -32,8 +32,7 @@ public class OptionsScreen extends Screen {
     }
     
     @Override
-    protected
-    ImageRepresentation getCurrentCell(int i, int j) {
+    protected ImageRepresentation getCurrentCell(int i, int j) {
         return new GraphicRepresentation(Color.BLACK, Color.BLACK, Graphic.EMPTY_CELL,
                 getBitmapContext().getCharPixelWidth(), getBitmapContext().getCharPixelHeight());
     }
