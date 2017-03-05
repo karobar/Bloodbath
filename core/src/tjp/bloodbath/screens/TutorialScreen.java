@@ -5,11 +5,11 @@ import com.badlogic.gdx.Input.Keys;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
-import tjp.wiji.gui.GUIText;
+import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
-import tjp.wiji.gui.ScreenTextCollection;
-import tjp.wiji.gui.TextCollection;
+import tjp.wiji.gui.ScreenTextList;
+import tjp.wiji.gui.TextList;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
@@ -24,31 +24,49 @@ import tjp.wiji.representations.ImageRepresentation;
 public class TutorialScreen extends Screen { 
     private static String LINE1 = "This game is intended to complement the Pomodoro time management"
             + " technique.";
-    private static String LINE2 = "Work for 25 minutes on whatever suits you,";
+    
+    private static String HUNT = "HUNT:";
+    private static String LINE2 = "Work for 25 minutes on whatever suits you";
     private static String LINE3 = "while your character hunts down vampires.";
+    
+    private static String PLAN = "PLAN:";
     private static String LINE4 = "Then take direct control while you play for 5 minutes.";
+    private static String LINE5 = "Planning triggers automatically after a HUNT";
+            
     private static String EMPTY = "";
-    private static String LINE5 = "The ability to input work time directly has also been added in ";
-    private static String LINE6 = "order to track time spent away from the computer (and for "
+    private static String ENTER = "REPORT:";
+    private static String LINE6 = "The ability to input work time directly has also been added in ";
+    private static String LINE7 = "order to track time spent away from the computer (and for "
             + "testing).";
+    private static String LINE8 = "These minutes can be redeemed at any time with a PLAN.";
     
     public TutorialScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
         super(graphicsContext, screenContext);
         
-        ScreenTextCollection tutText = ScreenTextCollection.newBuilder()
+        ScreenTextList tutText = ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
                 .color(Color.WHITE)
                 .centered()
-                .y(8)
+                .y(5)
                 .build();
         
-        tutText.add(new GUIText(LINE1));
-        tutText.add(new GUIText(LINE2));
-        tutText.add(new GUIText(LINE3));
-        tutText.add(new GUIText(LINE4));
-        tutText.add(new GUIText(EMPTY));
-        tutText.add(new GUIText(LINE5));
-        tutText.add(new GUIText(LINE6));
+        tutText.add(new GUItext(LINE1));
+        tutText.add(new GUItext(EMPTY));
+        
+        tutText.add(new GUItext(HUNT));
+        tutText.add(new GUItext(LINE2));
+        tutText.add(new GUItext(LINE3));
+        tutText.add(new GUItext(EMPTY));
+        
+        tutText.add(new GUItext(PLAN));
+        tutText.add(new GUItext(LINE4));
+        tutText.add(new GUItext(LINE5));
+        tutText.add(new GUItext(EMPTY));
+        
+        tutText.add(new GUItext(ENTER));
+        tutText.add(new GUItext(LINE6));
+        tutText.add(new GUItext(LINE7));
+        tutText.add(new GUItext(LINE8));
         addGUIelement(tutText);
     }
     

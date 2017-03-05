@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input.Keys;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
+import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
+import tjp.wiji.gui.TextList;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
@@ -19,16 +21,18 @@ import tjp.wiji.representations.ImageRepresentation;
  * @author      Travis Pressler (travisp471@gmail.com)
  * @version     %I%, %G%
  */
-public class OptionsScreen extends Screen { 
-    public OptionsScreen(BitmapContext bitmapContext, ScreenContext screenContext) {
-        super(bitmapContext, screenContext);
-               
+public class NewCharacterScreen extends Screen { 
+    
+    public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+        super(graphicsContext, screenContext);
+        
         addGUIelement(ScreenTextList.newBuilder()
-                .bitmapContext(bitmapContext)
-                .centered()
-                .initialItem("OPTIONS")
-                .y(2)
+                .bitmapContext(graphicsContext)
+                .color(Color.WHITE)
+                .initialItem("NAME:")
+                .centered().y(5)
                 .build());
+        
     }
     
     @Override
@@ -41,6 +45,9 @@ public class OptionsScreen extends Screen {
     public void handleEvent(GameEvent event) {
         switch(event.getIntCode()) {
             case Keys.ESCAPE:
+                stepScreenBackwards();
+                break;
+            case Keys.ENTER:
                 stepScreenBackwards();
                 break;
         } 
