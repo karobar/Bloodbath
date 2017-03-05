@@ -1,17 +1,18 @@
 package tjp.bloodbath.screens;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.badlogic.gdx.Input.Keys;
 
+import tjp.bloodbath.game.PlayerCharacter;
+import tjp.bloodbath.game.PlayerContext;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
-import tjp.wiji.gui.AncillaryGUItext;
-import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.InputField;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
-import tjp.wiji.gui.TextList;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
@@ -26,9 +27,13 @@ import tjp.wiji.representations.ImageRepresentation;
 public class NewCharacterScreen extends Screen { 
     private final ScreenTextList choices;
     private final InputField nameInput;
+    private PlayerContext playerContext;
     
-    public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+    public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
+            PlayerContext playerContext) {
+        
         super(graphicsContext, screenContext);
+        this.playerContext = checkNotNull(playerContext);
         
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -81,10 +86,17 @@ public class NewCharacterScreen extends Screen {
     }
     
     private void possiblyAccept() {
-        
-        stepScreenBackwards();
+        if (!nameInput.isEmpty()) {
+            playerContext.setMainCharacter(new PlayerCharacter(nameInput.toString()));
+            stepScreenBackwards();
+        }
     }
 
     @Override
     protected void handleFrameChange() { }
+
+    @Override
+    public void stepToScreenTrigger() {
+ 
+    }
 }

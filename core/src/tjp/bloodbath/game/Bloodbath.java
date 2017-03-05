@@ -10,7 +10,7 @@ public class Bloodbath extends MainFrame {
             final int widthInSlots, final int heightInSlots) {
 
         super(bitmapContext, widthInSlots, heightInSlots, 
-                new TitleScreen(bitmapContext, new ScreenContext()));
+                new TitleScreen(bitmapContext, new ScreenContext(), new PlayerContext()));
     }
 
     @Override

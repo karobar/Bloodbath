@@ -70,4 +70,8 @@ public class EnterTimeScreen extends Screen {
 
     @Override
     protected void handleFrameChange() { }
+
+    @Override
+    public void stepToScreenTrigger() {     
+    }
 }

@@ -48,4 +48,9 @@ public class OptionsScreen extends Screen {
 
     @Override
     protected void handleFrameChange() { }
+
+    @Override
+    public void stepToScreenTrigger() {
+
+    }
 }

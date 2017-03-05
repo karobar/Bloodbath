@@ -2,11 +2,11 @@ package tjp.bloodbath.screens;
 
 import com.badlogic.gdx.Input.Keys;
 
+import tjp.bloodbath.game.PlayerContext;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.CellDimensions;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
-import tjp.wiji.gui.AncillaryGUItext;
 import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
@@ -24,20 +24,24 @@ import tjp.wiji.representations.ImageRepresentation;
  */
 public class TitleScreen extends Screen {    
     ScreenTextList mainMenuChoices;
+    private final PlayerContext playerContext;
     
-    private static final GUItext NEW_PLAYER = new GUItext("NEW HUNTER");
-    private static final AncillaryGUItext HUNT = new AncillaryGUItext("HUNT");
-    private static final AncillaryGUItext PLAN = new AncillaryGUItext("PLAN");
-    private static final AncillaryGUItext ENTER_TIME = new AncillaryGUItext("REPORT");
-    private static final AncillaryGUItext TIMER = new AncillaryGUItext("0:00");
-    private static final AncillaryGUItext NEWLINE = new AncillaryGUItext("");
+    private final GUItext newPlayer = new GUItext("NEW HUNTER");
+    private final GUItext hunt = new GUItext("HUNT", true);
+    private final GUItext plan = new GUItext("PLAN", true);
+    private final GUItext enterTime = new GUItext("REPORT", true);
+    private static final GUItext TIMER = new GUItext("0:00", true);
+    private static final GUItext NEWLINE = new GUItext("", true);
     
     private static final GUItext TUTORIAL = new GUItext("TUTORIAL");
     private static final GUItext OPTIONS   = new GUItext("OPTIONS");
     private static final GUItext EXIT_GAME = new GUItext("EXIT");
     
-    public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+    public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
+            PlayerContext playerContext) {
+
         super(graphicsContext, screenContext);
+        this.playerContext = playerContext;
         
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -51,10 +55,10 @@ public class TitleScreen extends Screen {
                 .inactiveColor(Color.WHITE).activeColor(Color.RED)
                 .centered().y(11)
                 .build();
-        mainMenuChoices.add(NEW_PLAYER);
-        mainMenuChoices.add(HUNT);
-        mainMenuChoices.add(ENTER_TIME);
-        mainMenuChoices.add(PLAN);
+        mainMenuChoices.add(newPlayer);
+        mainMenuChoices.add(hunt);
+        mainMenuChoices.add(enterTime);
+        mainMenuChoices.add(plan);
         mainMenuChoices.add(TIMER);
         mainMenuChoices.add(NEWLINE);
         mainMenuChoices.add(TUTORIAL);
@@ -85,6 +89,18 @@ public class TitleScreen extends Screen {
         } 
     }
     
+    @Override
+    public void stepToScreenTrigger() {
+         newPlayer.setIsAncillary(playerContext.hasMainCharacter());
+         hunt.setIsAncillary(!playerContext.hasMainCharacter());
+         plan.setIsAncillary(!playerContext.hasMainCharacter());
+         enterTime.setIsAncillary(!playerContext.hasMainCharacter());
+         
+         if (mainMenuChoices.getCurrentChoice().isAncillary()) {
+             mainMenuChoices.cycleDown();
+         }
+    }
+    
     // on enter
     private void handleSelection() {     
         if (mainMenuChoices.getCurrentChoice().equals(TUTORIAL)) {
@@ -93,15 +109,15 @@ public class TitleScreen extends Screen {
             stepScreenForwards(new OptionsScreen(getBitmapContext(), getScreenContext()));
         } else if (mainMenuChoices.getCurrentChoice().equals(EXIT_GAME)) {
             System.exit(0);
-        } else if (mainMenuChoices.getCurrentChoice().equals(ENTER_TIME)) {
+        } else if (mainMenuChoices.getCurrentChoice().equals(enterTime)) {
             stepScreenForwards(new EnterTimeScreen(getBitmapContext(), getScreenContext()));
-        } else if (mainMenuChoices.getCurrentChoice().equals(NEW_PLAYER)) {
-            stepScreenForwards(new NewCharacterScreen(getBitmapContext(), getScreenContext()));
+        } else if (mainMenuChoices.getCurrentChoice().equals(newPlayer)) {
+            stepScreenForwards(new NewCharacterScreen(getBitmapContext(), getScreenContext(), 
+                    playerContext));
         }
     }
 
     @Override
-    public void handleFrameChange() {
-        
+    public void handleFrameChange() {    
     }
 }

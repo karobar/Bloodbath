@@ -90,4 +90,10 @@ public class TutorialScreen extends Screen {
 
     @Override
     protected void handleFrameChange() { }
+
+    @Override
+    public void stepToScreenTrigger() {
+        // TODO Auto-generated method stub
+        
+    }
 }
