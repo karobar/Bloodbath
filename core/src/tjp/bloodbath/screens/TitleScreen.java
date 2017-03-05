@@ -6,7 +6,7 @@ import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.CellDimensions;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
-import tjp.wiji.gui.AncillaryGUIText;
+import tjp.wiji.gui.AncillaryGUItext;
 import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
@@ -26,11 +26,11 @@ public class TitleScreen extends Screen {
     ScreenTextList mainMenuChoices;
     
     private static final GUItext NEW_PLAYER = new GUItext("NEW HUNTER");
-    private static final AncillaryGUIText HUNT = new AncillaryGUIText("HUNT");
-    private static final AncillaryGUIText PLAN = new AncillaryGUIText("PLAN");
-    private static final AncillaryGUIText ENTER_TIME = new AncillaryGUIText("REPORT");
-    private static final AncillaryGUIText TIMER = new AncillaryGUIText("0:00");
-    private static final AncillaryGUIText NEWLINE = new AncillaryGUIText("");
+    private static final AncillaryGUItext HUNT = new AncillaryGUItext("HUNT");
+    private static final AncillaryGUItext PLAN = new AncillaryGUItext("PLAN");
+    private static final AncillaryGUItext ENTER_TIME = new AncillaryGUItext("REPORT");
+    private static final AncillaryGUItext TIMER = new AncillaryGUItext("0:00");
+    private static final AncillaryGUItext NEWLINE = new AncillaryGUItext("");
     
     private static final GUItext TUTORIAL = new GUItext("TUTORIAL");
     private static final GUItext OPTIONS   = new GUItext("OPTIONS");
@@ -71,7 +71,7 @@ public class TitleScreen extends Screen {
     }
     
     @Override
-    public void handleEvent(GameEvent event) {
+    public void handleEvent(GameEvent event) {        
         switch(event.getIntCode()) {
             case Keys.UP:
                 mainMenuChoices.cycleUp();
@@ -95,6 +95,8 @@ public class TitleScreen extends Screen {
             System.exit(0);
         } else if (mainMenuChoices.getCurrentChoice().equals(ENTER_TIME)) {
             stepScreenForwards(new EnterTimeScreen(getBitmapContext(), getScreenContext()));
+        } else if (mainMenuChoices.getCurrentChoice().equals(NEW_PLAYER)) {
+            stepScreenForwards(new NewCharacterScreen(getBitmapContext(), getScreenContext()));
         }
     }
 

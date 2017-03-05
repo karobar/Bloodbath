@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input.Keys;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
+import tjp.wiji.gui.AncillaryGUItext;
 import tjp.wiji.gui.GUItext;
+import tjp.wiji.gui.InputField;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
@@ -22,6 +24,8 @@ import tjp.wiji.representations.ImageRepresentation;
  * @version     %I%, %G%
  */
 public class NewCharacterScreen extends Screen { 
+    private final ScreenTextList choices;
+    private final InputField nameInput;
     
     public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
         super(graphicsContext, screenContext);
@@ -30,9 +34,19 @@ public class NewCharacterScreen extends Screen {
                 .bitmapContext(graphicsContext)
                 .color(Color.WHITE)
                 .initialItem("NAME:")
-                .centered().y(5)
+                .centered().y(8)
                 .build());
         
+        choices = ScreenTextList.newBuilder()
+            .bitmapContext(graphicsContext)
+            .inactiveColor(Color.GRAY)
+            .activeColor(Color.RED)
+            .centered().y(10)
+            .build();
+        nameInput = new InputField(Color.RED, Color.GRAY, 7, 25);
+        //GUItext done = new GUItext("DONE ", Color.RED, Color.GRAY);
+        choices.add(nameInput);
+        addGUIelement(choices);
     }
     
     @Override
@@ -43,14 +57,32 @@ public class NewCharacterScreen extends Screen {
     
     @Override
     public void handleEvent(GameEvent event) {
+        if (choices.getCurrentChoice() == nameInput && event.isNormalTypingKey()) {
+            nameInput.push(event.getCharCode());
+        }
+        
         switch(event.getIntCode()) {
+            case Keys.BACKSPACE:
+                nameInput.pop();
+                break;
+            case Keys.UP:
+                choices.cycleUp();
+                break;
+            case Keys.DOWN:
+                choices.cycleDown();
+                break;
             case Keys.ESCAPE:
                 stepScreenBackwards();
                 break;
             case Keys.ENTER:
-                stepScreenBackwards();
+                possiblyAccept();
                 break;
         } 
+    }
+    
+    private void possiblyAccept() {
+        
+        stepScreenBackwards();
     }
 
     @Override
