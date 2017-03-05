@@ -5,7 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import tjp.bloodbath.game.Bloodbath;
+import tjp.bloodbath.game.PlayerContext;
+import tjp.bloodbath.screens.TitleScreen;
 import tjp.wiji.drawing.BitmapContext;
+import tjp.wiji.gui.ScreenContext;
 
 public class DesktopLauncher {
     private int widthInSlots, heightInSlots, frameWidth, frameHeight;
@@ -42,9 +45,14 @@ public class DesktopLauncher {
         config.resizable = false;
         //config.addIcon("AppIcon.png", FileType.Internal);
         
+        
+        TitleScreen titleScreen = 
+                new TitleScreen(launcher.bitmapContext, new ScreenContext(), new PlayerContext());
+        
+        
         new LwjglApplication(new Bloodbath(launcher.bitmapContext, 
                         launcher.widthInSlots,
-                        launcher.heightInSlots),
+                        launcher.heightInSlots, titleScreen),
                 config);
     }
 }

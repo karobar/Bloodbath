@@ -17,13 +17,6 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-/**
- * A screen which is accessible from the title screen which allows for 
- * modifying program options (such as window size).
- * 
- * @author      Travis Pressler (travisp471@gmail.com)
- * @version     %I%, %G%
- */
 public class NewCharacterScreen extends Screen { 
     private final ScreenTextList choices;
     private final InputField nameInput;

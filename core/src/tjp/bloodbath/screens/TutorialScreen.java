@@ -14,13 +14,6 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-/**
- * A screen which is accessible from the title screen which allows for 
- * modifying program options (such as window size).
- * 
- * @author      Travis Pressler (travisp471@gmail.com)
- * @version     %I%, %G%
- */
 public class TutorialScreen extends Screen { 
     private static String LINE1 = "This game is intended to complement the Pomodoro time management"
             + " technique.";

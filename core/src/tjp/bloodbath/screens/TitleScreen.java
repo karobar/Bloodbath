@@ -1,11 +1,15 @@
 package tjp.bloodbath.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.files.FileHandle;
 
+import tjp.bloodbath.game.Bloodbath;
 import tjp.bloodbath.game.PlayerContext;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.CellDimensions;
 import tjp.wiji.drawing.Color;
+import tjp.wiji.drawing.MainFrame;
 import tjp.wiji.event.GameEvent;
 import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
@@ -15,13 +19,6 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-/**
- * A screen which is accessible from the title screen which allows for 
- * modifying program options (such as window size).
- * 
- * @author      Travis Pressler (travisp471@gmail.com)
- * @version     %I%, %G%
- */
 public class TitleScreen extends Screen {    
     ScreenTextList mainMenuChoices;
     private final PlayerContext playerContext;
@@ -37,12 +34,14 @@ public class TitleScreen extends Screen {
     private static final GUItext OPTIONS   = new GUItext("OPTIONS");
     private static final GUItext EXIT_GAME = new GUItext("EXIT");
     
+    private Bloodbath mainFrame;
+    
     public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
             PlayerContext playerContext) {
 
         super(graphicsContext, screenContext);
         this.playerContext = playerContext;
-        
+
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
                 .color(Color.RED)
@@ -67,9 +66,12 @@ public class TitleScreen extends Screen {
         addGUIelement(mainMenuChoices);
     }
     
+    public void init(Bloodbath mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+    
     @Override
-    protected
-    ImageRepresentation getCurrentCell(int i, int j) {
+    protected ImageRepresentation getCurrentCell(int i, int j) {
         return new GraphicRepresentation(Color.BLACK, Color.BLACK, Graphic.EMPTY_CELL,
                 getBitmapContext().getCharPixelWidth(), getBitmapContext().getCharPixelHeight());
     }
@@ -87,6 +89,10 @@ public class TitleScreen extends Screen {
                 handleSelection();
                 break;
         } 
+    }
+    
+    public PlayerContext getPlayerContext() {
+        return playerContext;
     }
     
     @Override
@@ -108,7 +114,7 @@ public class TitleScreen extends Screen {
         } else if (mainMenuChoices.getCurrentChoice().equals(OPTIONS)) {
             stepScreenForwards(new OptionsScreen(getBitmapContext(), getScreenContext()));
         } else if (mainMenuChoices.getCurrentChoice().equals(EXIT_GAME)) {
-            System.exit(0);
+            mainFrame.dispose(); 
         } else if (mainMenuChoices.getCurrentChoice().equals(enterTime)) {
             stepScreenForwards(new EnterTimeScreen(getBitmapContext(), getScreenContext()));
         } else if (mainMenuChoices.getCurrentChoice().equals(newPlayer)) {
