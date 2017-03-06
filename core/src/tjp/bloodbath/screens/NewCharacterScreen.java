@@ -5,7 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.badlogic.gdx.Input.Keys;
 
 import tjp.bloodbath.game.PlayerCharacter;
-import tjp.bloodbath.game.PlayerContext;
+import tjp.bloodbath.game.Save;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -20,10 +20,10 @@ import tjp.wiji.representations.ImageRepresentation;
 public class NewCharacterScreen extends Screen { 
     private final ScreenTextList choices;
     private final InputField nameInput;
-    private PlayerContext playerContext;
+    private Save playerContext;
     
     public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
-            PlayerContext playerContext) {
+            Save playerContext) {
         
         super(graphicsContext, screenContext);
         this.playerContext = checkNotNull(playerContext);

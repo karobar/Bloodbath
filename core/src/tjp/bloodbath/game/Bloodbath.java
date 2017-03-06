@@ -15,29 +15,43 @@ import tjp.wiji.gui.ScreenContext;
 public class Bloodbath extends MainFrame {
     private TitleScreen titleScreen;
     
+    private final static Yaml YAML = new Yaml();
+    
+    private static final String SAVE_FILE_NAME = "save.yml";
+    
     public Bloodbath(final BitmapContext bitmapContext,
-            final int widthInSlots, final int heightInSlots, 
-            TitleScreen titleScreen) {
+            final int widthInSlots, final int heightInSlots) {
 
-        super(bitmapContext, widthInSlots, heightInSlots, titleScreen);
-
-        this.titleScreen = checkNotNull(titleScreen);
+        super(bitmapContext, widthInSlots, heightInSlots);
     }
 
     @Override
-    protected void createHook() {
+    protected ScreenContext createStartingScreenContext() {
+        titleScreen = new TitleScreen(getBitmapContext(), new ScreenContext());
+        
+        FileHandle saveFile = Gdx.files.local(SAVE_FILE_NAME);
+        if (saveFile.exists()) {
+            Save save = (Save) YAML.load(saveFile.readString());
+            titleScreen.setSave(save);
+            System.out.println(save.hasMainCharacter());
+        } else {
+            titleScreen.setSave(new Save());
+            System.out.println(titleScreen.getSave());
+        }
+
         titleScreen.init(this);
+        titleScreen.getScreenContext().init(titleScreen);
+        return titleScreen.getScreenContext();
     }
 
     @Override
     protected void disposeHook() {
-        PlayerContext playerContext = titleScreen.getPlayerContext();
+        Save save = titleScreen.getSave();
         
-        if (playerContext.hasMainCharacter()) {
-            Yaml yaml = new Yaml();
-            String charDump = yaml.dump(playerContext.getMainCharacter());
-            FileHandle file = Gdx.files.local("save.yml");
-            file.writeString(charDump, false);
+        if (save.hasMainCharacter()) {
+            String charDump = YAML.dump(save);
+            FileHandle saveFile = Gdx.files.local(SAVE_FILE_NAME);
+            saveFile.writeString(charDump, false);
         } 
     }
 }

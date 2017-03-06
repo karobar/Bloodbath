@@ -4,8 +4,10 @@ import java.net.URISyntaxException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.files.FileHandle;
+
 import tjp.bloodbath.game.Bloodbath;
-import tjp.bloodbath.game.PlayerContext;
+import tjp.bloodbath.game.Save;
 import tjp.bloodbath.screens.TitleScreen;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.gui.ScreenContext;
@@ -45,14 +47,9 @@ public class DesktopLauncher {
         config.resizable = false;
         //config.addIcon("AppIcon.png", FileType.Internal);
         
-        
-        TitleScreen titleScreen = 
-                new TitleScreen(launcher.bitmapContext, new ScreenContext(), new PlayerContext());
-        
-        
         new LwjglApplication(new Bloodbath(launcher.bitmapContext, 
                         launcher.widthInSlots,
-                        launcher.heightInSlots, titleScreen),
+                        launcher.heightInSlots),
                 config);
     }
 }

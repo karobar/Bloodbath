@@ -2,8 +2,11 @@ package tjp.bloodbath.game;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class PlayerContext {
+public class Save {
     private PlayerCharacter mainCharacter;
+    
+    // for bean
+    public Save() { }
     
     public void setMainCharacter(PlayerCharacter player) {
         this.mainCharacter = checkNotNull(player);
@@ -18,6 +21,9 @@ public class PlayerContext {
     }
     
     public String toString() {
-        return mainCharacter.toString();
+        if (mainCharacter != null) {
+            return mainCharacter.toString();
+        }
+        else return "";
     }
 }
