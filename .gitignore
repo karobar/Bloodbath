@@ -1,3 +1,6 @@
+## Custom
+*.yml
+
 ## Java
 
 *.class

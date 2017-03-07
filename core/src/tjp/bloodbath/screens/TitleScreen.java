@@ -33,9 +33,11 @@ public class TitleScreen extends Screen {
     
     private Bloodbath mainFrame;
     
-    public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+    public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
+            Bloodbath controllingFrame) {
 
         super(graphicsContext, screenContext);
+        this.mainFrame = controllingFrame;
 
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -54,17 +56,15 @@ public class TitleScreen extends Screen {
         mainMenuChoices.add(enterTime);
         mainMenuChoices.add(plan);
         mainMenuChoices.add(TIMER);
+        
         mainMenuChoices.add(NEWLINE);
+        
         mainMenuChoices.add(TUTORIAL);
         mainMenuChoices.add(OPTIONS);
         mainMenuChoices.add(EXIT_GAME);
         addGUIelement(mainMenuChoices);
     }
-    
-    public void init(Bloodbath mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-    
+
     @Override
     protected ImageRepresentation getCurrentCell(int i, int j) {
         return new GraphicRepresentation(Color.BLACK, Color.BLACK, Graphic.EMPTY_CELL,
@@ -98,7 +98,7 @@ public class TitleScreen extends Screen {
     public void stepToScreenTrigger() {
          newPlayer.setIsAncillary(save.hasMainCharacter());
          hunt.setIsAncillary(!save.hasMainCharacter());
-         plan.setIsAncillary(!save.hasMainCharacter());
+         plan.setIsAncillary(!save.hasLoggedTime());
          enterTime.setIsAncillary(!save.hasMainCharacter());
          
          if (mainMenuChoices.getCurrentChoice().isAncillary()) {

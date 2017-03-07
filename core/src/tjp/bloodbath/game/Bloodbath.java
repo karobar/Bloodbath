@@ -27,19 +27,16 @@ public class Bloodbath extends MainFrame {
 
     @Override
     protected ScreenContext createStartingScreenContext() {
-        titleScreen = new TitleScreen(getBitmapContext(), new ScreenContext());
+        titleScreen = new TitleScreen(getBitmapContext(), new ScreenContext(), this);
         
         FileHandle saveFile = Gdx.files.local(SAVE_FILE_NAME);
         if (saveFile.exists()) {
             Save save = (Save) YAML.load(saveFile.readString());
             titleScreen.setSave(save);
-            System.out.println(save.hasMainCharacter());
         } else {
             titleScreen.setSave(new Save());
-            System.out.println(titleScreen.getSave());
         }
 
-        titleScreen.init(this);
         titleScreen.getScreenContext().init(titleScreen);
         return titleScreen.getScreenContext();
     }

@@ -9,12 +9,13 @@ import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
-import tjp.wiji.gui.TextList;
+import tjp.wiji.gui.TimeInputField;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
 public class EnterTimeScreen extends Screen { 
+    TimeInputField input;
     
     public EnterTimeScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
         super(graphicsContext, screenContext);
@@ -41,6 +42,24 @@ public class EnterTimeScreen extends Screen {
                 .initialItem("What have you learned about these fuckers?")
                 .build();
         addGUIelement(response);
+        
+        addGUIelement(ScreenTextList.newBuilder()
+                .bitmapContext(graphicsContext)
+                .color(Color.WHITE)
+                .centered()
+                .initialItem("You discuss what you've learned for some time:")
+                .y(12)
+                .build());
+        
+        ScreenTextList inputList = ScreenTextList.newBuilder()
+                .bitmapContext(graphicsContext)
+                .centered()
+                .y(14)
+                .build();
+        
+        input = new TimeInputField(Color.RED, Color.WHITE, 8, "HH:MM:SS", Color.DARK_GRAY);
+        inputList.add(input);
+        addGUIelement(inputList);
     }
     
     @Override
@@ -51,11 +70,19 @@ public class EnterTimeScreen extends Screen {
     
     @Override
     public void handleEvent(GameEvent event) {
+        if (event.isNumber()) {
+            input.push(event.getCharCode());
+        }
+        
         switch(event.getIntCode()) {
+            case Keys.BACKSPACE:
+                input.pop();
+                break;
             case Keys.ESCAPE:
                 stepScreenBackwards();
                 break;
             case Keys.ENTER:
+                System.out.println(input.getNumberOfSeconds());
                 stepScreenBackwards();
                 break;
         } 
