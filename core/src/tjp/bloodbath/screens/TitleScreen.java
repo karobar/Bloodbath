@@ -1,7 +1,5 @@
 package tjp.bloodbath.screens;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.badlogic.gdx.Input.Keys;
 import tjp.bloodbath.game.Bloodbath;
 import tjp.bloodbath.game.Save;
@@ -12,19 +10,20 @@ import tjp.wiji.gui.GUItext;
 import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
+import tjp.wiji.gui.Timer;
 import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
 public class TitleScreen extends Screen {    
     ScreenTextList mainMenuChoices;
-    private Save save;
+    private final Save save;
     
     private final GUItext newPlayer = new GUItext("NEW HUNTER");
     private final GUItext hunt = new GUItext("HUNT", true);
     private final GUItext plan = new GUItext("PLAN", true);
     private final GUItext enterTime = new GUItext("REPORT", true);
-    private static final GUItext TIMER = new GUItext("0:00", true);
+    private static final Timer TIMER = new Timer("0:00", true);
     private static final GUItext NEWLINE = new GUItext("", true);
     
     private static final GUItext TUTORIAL = new GUItext("TUTORIAL");
@@ -34,10 +33,11 @@ public class TitleScreen extends Screen {
     private Bloodbath mainFrame;
     
     public TitleScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
-            Bloodbath controllingFrame) {
+            Bloodbath controllingFrame, Save save) {
 
         super(graphicsContext, screenContext);
         this.mainFrame = controllingFrame;
+        this.save = save;
 
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -90,16 +90,13 @@ public class TitleScreen extends Screen {
         return save;
     }
     
-    public void setSave(Save save) {
-        this.save = checkNotNull(save);
-    }
-    
     @Override
     public void stepToScreenTrigger() {
          newPlayer.setIsAncillary(save.hasMainCharacter());
          hunt.setIsAncillary(!save.hasMainCharacter());
          plan.setIsAncillary(!save.hasLoggedTime());
          enterTime.setIsAncillary(!save.hasMainCharacter());
+         TIMER.setTime(save.getLoggedTime());
          
          if (mainMenuChoices.getCurrentChoice().isAncillary()) {
              mainMenuChoices.cycleDown();
@@ -115,10 +112,12 @@ public class TitleScreen extends Screen {
         } else if (mainMenuChoices.getCurrentChoice().equals(EXIT_GAME)) {
             mainFrame.dispose(); 
         } else if (mainMenuChoices.getCurrentChoice().equals(enterTime)) {
-            stepScreenForwards(new EnterTimeScreen(getBitmapContext(), getScreenContext()));
+            stepScreenForwards(new EnterTimeScreen(getBitmapContext(), getScreenContext(), save));
         } else if (mainMenuChoices.getCurrentChoice().equals(newPlayer)) {
             stepScreenForwards(new NewCharacterScreen(getBitmapContext(), getScreenContext(), 
                     save));
+        } else if (mainMenuChoices.getCurrentChoice().equals(hunt)) {
+            stepScreenForwards(new HuntScreen(getBitmapContext(), getScreenContext()));
         }
     }
 

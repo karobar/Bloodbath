@@ -17,7 +17,7 @@ public class Bloodbath extends MainFrame {
     
     private final static Yaml YAML = new Yaml();
     
-    private static final String SAVE_FILE_NAME = "save.yml";
+
     
     public Bloodbath(final BitmapContext bitmapContext,
             final int widthInSlots, final int heightInSlots) {
@@ -27,15 +27,14 @@ public class Bloodbath extends MainFrame {
 
     @Override
     protected ScreenContext createStartingScreenContext() {
-        titleScreen = new TitleScreen(getBitmapContext(), new ScreenContext(), this);
-        
-        FileHandle saveFile = Gdx.files.local(SAVE_FILE_NAME);
-        if (saveFile.exists()) {
-            Save save = (Save) YAML.load(saveFile.readString());
-            titleScreen.setSave(save);
+        Save save;
+        if (Save.fileExists()) {
+            save = Save.getSave();
         } else {
-            titleScreen.setSave(new Save());
+            save = new Save();
         }
+        
+        titleScreen = new TitleScreen(getBitmapContext(), new ScreenContext(), this, save);
 
         titleScreen.getScreenContext().init(titleScreen);
         return titleScreen.getScreenContext();
@@ -47,8 +46,7 @@ public class Bloodbath extends MainFrame {
         
         if (save.hasMainCharacter()) {
             String charDump = YAML.dump(save);
-            FileHandle saveFile = Gdx.files.local(SAVE_FILE_NAME);
-            saveFile.writeString(charDump, false);
+            save.getSaveFile().writeString(charDump, false);
         } 
     }
 }

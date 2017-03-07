@@ -2,6 +2,7 @@ package tjp.bloodbath.screens;
 
 import com.badlogic.gdx.Input.Keys;
 
+import tjp.bloodbath.game.Save;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -15,10 +16,12 @@ import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
 public class EnterTimeScreen extends Screen { 
-    TimeInputField input;
+    final TimeInputField input;
+    final Save save;
     
-    public EnterTimeScreen(BitmapContext graphicsContext, ScreenContext screenContext) {
+    public EnterTimeScreen(BitmapContext graphicsContext, ScreenContext screenContext, Save save) {
         super(graphicsContext, screenContext);
+        this.save = save;
         
         ScreenTextList setScene = 
                 ScreenTextList.newBuilder()
@@ -82,7 +85,7 @@ public class EnterTimeScreen extends Screen {
                 stepScreenBackwards();
                 break;
             case Keys.ENTER:
-                System.out.println(input.getNumberOfSeconds());
+                save.addTime(input.getNumberOfSeconds());
                 stepScreenBackwards();
                 break;
         } 
