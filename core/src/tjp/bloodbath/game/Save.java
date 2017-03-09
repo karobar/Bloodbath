@@ -29,7 +29,9 @@ public class Save {
     
     private int loggedTime;
     
-    private PlayerCharacter mainCharacter;
+    private GameCharacter mainCharacter;
+    
+    private VampireTree vampireTree;
     
     // for bean
     public Save() { }
@@ -38,11 +40,15 @@ public class Save {
         this.loggedTime += numberOfSeconds;
     }
     
+    public void decrementTime() {
+        this.loggedTime--;
+    }
+    
     public int getLoggedTime() {
         return loggedTime;
     }
     
-    public PlayerCharacter getMainCharacter() {
+    public GameCharacter getMainCharacter() {
         return mainCharacter;
     }
     
@@ -63,7 +69,7 @@ public class Save {
         this.loggedTime = loggedTime;
     }
     
-    public void setMainCharacter(PlayerCharacter player) {
+    public void setMainCharacter(GameCharacter player) {
         this.mainCharacter = checkNotNull(player);
     }
 
@@ -72,5 +78,13 @@ public class Save {
             return mainCharacter.toString();
         }
         else return "";
+    }
+
+    public VampireTree getVampireTree() {
+        return vampireTree;
+    }
+
+    public void setVampireTree(VampireTree tree) {
+        this.vampireTree = tree;
     }
 }

@@ -117,7 +117,9 @@ public class TitleScreen extends Screen {
             stepScreenForwards(new NewCharacterScreen(getBitmapContext(), getScreenContext(), 
                     save));
         } else if (mainMenuChoices.getCurrentChoice().equals(hunt)) {
-            stepScreenForwards(new HuntScreen(getBitmapContext(), getScreenContext()));
+            stepScreenForwards(new HuntScreen(getBitmapContext(), getScreenContext(), save));
+        } else if (mainMenuChoices.getCurrentChoice().equals(plan)) {
+            stepScreenForwards(new PlanScreen(getBitmapContext(), getScreenContext(), save));
         }
     }
 

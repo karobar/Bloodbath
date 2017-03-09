@@ -2,6 +2,8 @@ package tjp.bloodbath.screens;
 
 import com.badlogic.gdx.Input.Keys;
 
+import tjp.bloodbath.game.Card;
+import tjp.bloodbath.game.Save;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -29,6 +31,8 @@ public class HuntScreen extends Screen {
     
     private Color backgroundColor = Color.BLACK;
     
+    private Save save;
+    
     private String getFleeText() {
         String retval = "FLEE";
         if (remainingFleeTime > 0) {
@@ -38,8 +42,9 @@ public class HuntScreen extends Screen {
         }
     }
     
-    public HuntScreen(BitmapContext bitmapContext, ScreenContext screenContext) {
+    public HuntScreen(BitmapContext bitmapContext, ScreenContext screenContext, Save save) {
         super(bitmapContext, screenContext);
+        this.save = save;
                
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(bitmapContext)
@@ -86,7 +91,13 @@ public class HuntScreen extends Screen {
     public void handleEvent(GameEvent event) {
         switch(event.getIntCode()) {
             case Keys.ENTER:
-                stepScreenBackwards();
+                if (remainingFleeTime <= 0) {
+                    save.getMainCharacter().addCard(Card.WOUND);
+                    stepScreenForwards(new InfoScreen(getBitmapContext(), getScreenContext(), 
+                            "Your target dealt a wound during a botched retreat"));
+                } else {
+                    stepScreenBackwards(); 
+                }
                 break;
         } 
     }
@@ -102,6 +113,7 @@ public class HuntScreen extends Screen {
         secondsRemaining--;
         timer.setTime(secondsRemaining);
         if (secondsRemaining < 1) {
+            save.addTime(HUNT_SECONDS);
             stepScreenBackwards();
         }
         backgroundColor = computeBackgroundColor(); 

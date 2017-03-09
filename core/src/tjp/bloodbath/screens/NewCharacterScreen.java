@@ -4,8 +4,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.badlogic.gdx.Input.Keys;
 
-import tjp.bloodbath.game.PlayerCharacter;
+import tjp.bloodbath.game.GameCharacter;
+import tjp.bloodbath.game.RandomNameGenerator;
 import tjp.bloodbath.game.Save;
+import tjp.bloodbath.game.VampireTree;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -20,13 +22,13 @@ import tjp.wiji.representations.ImageRepresentation;
 public class NewCharacterScreen extends Screen { 
     private final ScreenTextList choices;
     private final InputField nameInput;
-    private Save playerContext;
+    private Save save;
     
     public NewCharacterScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
-            Save playerContext) {
+            Save save) {
         
         super(graphicsContext, screenContext);
-        this.playerContext = checkNotNull(playerContext);
+        this.save = checkNotNull(save);
         
         addGUIelement(ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -80,7 +82,14 @@ public class NewCharacterScreen extends Screen {
     
     private void possiblyAccept() {
         if (!nameInput.isEmpty()) {
-            playerContext.setMainCharacter(new PlayerCharacter(nameInput.toString()));
+            save.setMainCharacter(new GameCharacter(nameInput.toString()));
+            
+            save.setVampireTree(new VampireTree(
+                    VampireTree.DEFAULT_SIBLINGS,
+                    VampireTree.DEFAULT_LEVELS,
+                    new RandomNameGenerator(), 
+                    null));
+            
             stepScreenBackwards();
         }
     }
