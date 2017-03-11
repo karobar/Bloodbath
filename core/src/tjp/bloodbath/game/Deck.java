@@ -1,26 +1,36 @@
 package tjp.bloodbath.game;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.HashMultiset;
+
 public class Deck {
     private List<Card> deck;
+    private final List<Card> discard;
     
     @Override
     public String toString() {
         return deck.toString();
     }
     
+    public void reconstitute() {
+        deck.addAll(discard);
+    }
+    
     public Deck() {
         this.deck = new ArrayList<Card>();
+        this.discard = new ArrayList<Card>();
     }
 
     public Deck(List<Card> cards) {
-        this.deck = cards;
+        this.deck = checkNotNull(cards);
+        this.discard = new ArrayList<Card>();
     }
 
     public boolean add(Card e) {
@@ -28,11 +38,17 @@ public class Deck {
     }
     
     public Card draw() {
-        return deck.get(0);
+        if (deck.isEmpty()) {
+            reconstitute();
+        }
+        Card retVal = deck.remove(deck.size() - 1);
+        discard.add(retVal);
+        return retVal;
     }
 
     public Collection<Card> draw(int num) {
-        Collection<Card> cards = new HashSet<Card>();
+        shuffle();
+        Collection<Card> cards = HashMultiset.create();
         for (int i = 0; i < num; i++) {
             cards.add(draw());
         }

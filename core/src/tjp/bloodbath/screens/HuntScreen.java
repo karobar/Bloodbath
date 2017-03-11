@@ -96,7 +96,7 @@ public class HuntScreen extends Screen {
             case Keys.ENTER:
             case Keys.ESCAPE:
                 if (remainingFleeTime <= 0) {
-                    save.getMainCharacter().addCard(Card.WOUND);
+                    save.getMainCharacter().addCard(new Card(Card.CardType.WOUND));
                     stepScreenForwards(new InfoScreen(getBitmapContext(), getScreenContext(), 
                             "Your target dealt a wound during a botched retreat"));
                 } else {

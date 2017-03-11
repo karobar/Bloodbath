@@ -126,4 +126,10 @@ public class ViewIntelScreen extends AbstractPlanScreen {
         targetList.setTertiaryElement(targetText);
         getSave().setTarget(target);
     }
+    
+    @Override
+    protected void outOfTimeTrigger() {
+        stepScreenBackwards();
+        stepScreenBackwards();
+    }
 }

@@ -52,4 +52,10 @@ public class TargetInfoScreen extends AbstractPlanScreen {
                 break;
         } 
     }
+    
+    @Override
+    protected void outOfTimeTrigger() {
+        stepScreenBackwards();
+        stepScreenBackwards();
+    }
 }

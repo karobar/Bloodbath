@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GameCharacter {
@@ -24,17 +25,25 @@ public class GameCharacter {
     }
 
     public GameCharacter(int level, String firstName, String lastName, String title, int age) {
-        this.deck = new Deck(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
-                Card.GOOD, Card.GOOD, Card.GOOD));
+        this.deck = new Deck(new LinkedList<Card> (Arrays.asList(new Card(level), 
+                new Card(level), new Card(level), new Card(level), new Card(level),
+                new Card(level), new Card(level))));
         this.firstName = checkNotNull(firstName);
         this.lastName = checkNotNull(lastName);
         this.title = checkNotNull(title);
         this.age = age;
     }
+    
+    public GameCharacter(String name, int level) {
+        this.deck = new Deck(new LinkedList<Card> (Arrays.asList(new Card(level), 
+                new Card(level), new Card(level), new Card(level), new Card(level),
+                new Card(level), new Card(level))));
+        this.firstName = checkNotNull(name);
+    }
 
     public GameCharacter(String name) {
-        this.deck = new Deck(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
-                Card.GOOD, Card.GOOD, Card.GOOD));
+        this.deck = new Deck(new LinkedList<Card> (Arrays.asList(new Card(6), 
+                new Card(6), new Card(6), new Card(6), new Card(6), new Card(6), new Card(6))));
         this.firstName = checkNotNull(name);
     }
     

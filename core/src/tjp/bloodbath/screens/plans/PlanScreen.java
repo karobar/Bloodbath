@@ -62,4 +62,7 @@ public class PlanScreen extends AbstractPlanScreen {
                     new ViewIntelScreen(getBitmapContext(), getScreenContext(), getSave()));
         } 
     }
+    
+    @Override
+    protected void outOfTimeTrigger() { }
 }

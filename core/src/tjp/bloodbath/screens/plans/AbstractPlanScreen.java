@@ -39,7 +39,13 @@ public abstract class AbstractPlanScreen extends Screen {
     protected void handleFrameChange() {
         save.decrementTime();
         timer.setTime(save.getLoggedTime());
+        if (save.getLoggedTime() < 1) {
+            stepScreenBackwards();
+            outOfTimeTrigger();
+        }
     }
+    
+    protected abstract void outOfTimeTrigger();
     
     @Override
     public void stepToScreenTrigger() {
