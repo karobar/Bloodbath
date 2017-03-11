@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class VampireTree {
-    public static final int DEFAULT_LEVELS = 1;
-    public static final int DEFAULT_SIBLINGS = 0;
+    public static final int DEFAULT_LEVELS = 5;
+    public static final int DEFAULT_SIBLINGS = 4;
     
     private static final int MIN_RANDO_AGE = 35;
     private static final int MAX_RANDO_AGE = 1600;
@@ -33,6 +33,9 @@ public class VampireTree {
                 Math.min(parentAge, MAX_GENERATION_DIFFERENCE) + 1);
     }
     
+    // for bean
+    VampireTree() { }
+    
     public VampireTree(int siblings, int remainingLevels, RandomNameGenerator rng,
             GameCharacter parent) {
         
@@ -49,7 +52,7 @@ public class VampireTree {
             double roll = ThreadLocalRandom.current().nextDouble(1);
             if (roll < USE_NAME_FACTOR) {
                 lastName = parent.getLastName();
-                title = "Descendant of House " + lastName;
+                title = "Descendant of " + parent.getFullName();
                 int generationDifference = getRandomGenerationDiff(parent.getAge());
                 age = Math.max(16, parent.getAge() - generationDifference);
             } else {

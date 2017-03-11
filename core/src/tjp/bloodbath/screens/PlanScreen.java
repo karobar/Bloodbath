@@ -72,7 +72,8 @@ public class PlanScreen extends Screen {
         if (mainMenuChoices.getCurrentChoice().equals(EXIT)) {
             stepScreenBackwards();
         } else if (mainMenuChoices.getCurrentChoice().equals(VIEW_INTEL)) {
-            stepScreenForwards(new ViewIntelScreen(getBitmapContext(), getScreenContext(), timer));
+            stepScreenForwards(new ViewIntelScreen(getBitmapContext(), getScreenContext(), timer, 
+                    save));
         } 
     }
 

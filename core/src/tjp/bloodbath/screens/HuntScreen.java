@@ -91,6 +91,7 @@ public class HuntScreen extends Screen {
     public void handleEvent(GameEvent event) {
         switch(event.getIntCode()) {
             case Keys.ENTER:
+            case Keys.ESCAPE:
                 if (remainingFleeTime <= 0) {
                     save.getMainCharacter().addCard(Card.WOUND);
                     stepScreenForwards(new InfoScreen(getBitmapContext(), getScreenContext(), 

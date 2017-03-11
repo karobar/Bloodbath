@@ -33,6 +33,8 @@ public class Save {
     
     private VampireTree vampireTree;
     
+    private GameCharacter target;
+    
     // for bean
     public Save() { }
     
@@ -86,5 +88,13 @@ public class Save {
 
     public void setVampireTree(VampireTree tree) {
         this.vampireTree = tree;
+    }
+
+    public GameCharacter getTarget() {
+        return target;
+    }
+
+    public void setTarget(GameCharacter target) {
+        this.target = target;
     }
 }
