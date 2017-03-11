@@ -1,4 +1,4 @@
-package tjp.bloodbath.screens;
+package tjp.bloodbath.screens.plans;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -21,29 +21,16 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-public class ViewIntelScreen extends Screen { 
-    private final Save save;
-    private final Timer timer;
+public class ViewIntelScreen extends AbstractPlanScreen { 
     private final ScreenTextList choiceList;
     private final LongList<GameCharacter> targetList;
     
     private GUItext info = new GUItext("INFO");
     private GUItext pickAsTarget = new GUItext("PICK AS NEXT TARGET");
     
-    public ViewIntelScreen(BitmapContext bitmapContext, ScreenContext screenContext, Timer timer,
-            Save save) {
+    public ViewIntelScreen(BitmapContext bitmapContext, ScreenContext screenContext, Save save) {
         
-        super(bitmapContext, screenContext);
-        this.save = checkNotNull(save);
-        this.timer = checkNotNull(timer);
-        
-        ScreenTextList timerList = ScreenTextList.newBuilder()
-                .bitmapContext(bitmapContext)
-                .centered()
-                .y(0)
-                .build();
-        timerList.add(timer);
-        addGUIelement(timerList);
+        super(bitmapContext, screenContext, save);
         
         targetList = LongList.<GameCharacter>newLongListBuilder()
                 .bitmapContext(bitmapContext)
@@ -119,6 +106,7 @@ public class ViewIntelScreen extends Screen {
                     stepScreenForwards(new TargetInfoScreen(
                             getBitmapContext(),
                             getScreenContext(),
+                            getSave(),
                             checkNotNull(targetList.getCurrentElement())));
  
                 } else if (choiceList.getCurrentChoice().equals(pickAsTarget)) {
@@ -136,17 +124,6 @@ public class ViewIntelScreen extends Screen {
         GUIelement targetText = targetList.getCurrentChoice();
         GameCharacter target = targetList.getFromKey(targetText);
         targetList.setTertiaryElement(targetText);
-        save.setTarget(target);
-    }
-
-    @Override
-    protected void handleFrameChange() {
-        save.decrementTime();
-        timer.setTime(save.getLoggedTime());
-    }
-
-    @Override
-    public void stepToScreenTrigger() {
-
+        getSave().setTarget(target);
     }
 }

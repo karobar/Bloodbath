@@ -41,7 +41,7 @@ public class DesktopLauncher {
             System.exit(0);
         }
         
-        config.title = "Pomo Test";
+        config.title = "Bloodbath";
         config.width = launcher.frameWidth;
         config.height = launcher.frameHeight;
         config.resizable = false;

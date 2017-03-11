@@ -4,6 +4,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -30,13 +33,19 @@ public class Save {
     private int loggedTime;
     
     private GameCharacter mainCharacter;
+
+    private Collection<Card> savedHand;
     
-    private VampireTree vampireTree;
-    
+    private Set<String> slainChars;
+
     private GameCharacter target;
-    
+
+    private VampireTree vampireTree;
+
     // for bean
-    public Save() { }
+    public Save() { 
+        this.slainChars = new HashSet<String>();
+    }
     
     public void addTime(int numberOfSeconds) {
         this.loggedTime += numberOfSeconds;
@@ -54,8 +63,24 @@ public class Save {
         return mainCharacter;
     }
     
+    public Collection<Card> getSavedHand() {
+        return savedHand;
+    }
+    
     public FileHandle getSaveFile() {
         return Gdx.files.local(SAVE_FILE_NAME);
+    }
+    
+    public Set<String> getSlainChars() {
+        return slainChars;
+    }
+    
+    public GameCharacter getTarget() {
+        return target;
+    }
+    
+    public VampireTree getVampireTree() {
+        return vampireTree;
     }
     
     public boolean hasLoggedTime() {
@@ -64,6 +89,21 @@ public class Save {
     
     public boolean hasMainCharacter() {
         return this.mainCharacter != null;
+    }
+    
+    public void killCharacter(boolean removeFromTree, GameCharacter target) {
+        target.setAlive(false);
+        if (slainChars == null) {
+            slainChars = new HashSet<String>();
+        }
+        slainChars.add(target.getFullName());
+    }
+    
+    public void permadeath() {
+        slainChars.add(mainCharacter.getFirstName());
+        mainCharacter = null;
+        vampireTree = null;
+        target = null;
     }
     
     // for bean
@@ -75,26 +115,26 @@ public class Save {
         this.mainCharacter = checkNotNull(player);
     }
 
-    public String toString() {
-        if (mainCharacter != null) {
-            return mainCharacter.toString();
-        }
-        else return "";
+    public void setSavedHand(Collection<Card> savedHand) {
+        this.savedHand = savedHand;
     }
 
-    public VampireTree getVampireTree() {
-        return vampireTree;
+    public void setSlainChars(Set<String> slainChars) {
+        this.slainChars = slainChars;
+    }
+
+    public void setTarget(GameCharacter target) {
+        this.target = target;
     }
 
     public void setVampireTree(VampireTree tree) {
         this.vampireTree = tree;
     }
 
-    public GameCharacter getTarget() {
-        return target;
-    }
-
-    public void setTarget(GameCharacter target) {
-        this.target = target;
+    public String toString() {
+        if (mainCharacter != null) {
+            return mainCharacter.toString();
+        }
+        else return "";
     }
 }

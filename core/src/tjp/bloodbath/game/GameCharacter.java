@@ -8,9 +8,11 @@ import java.util.List;
 
 public class GameCharacter {
     private int age;
-    private List<Card> deck;
+    private Deck deck;
     private String firstName;
     private String lastName;
+    
+    private boolean alive;
     
     private int level;
 
@@ -18,11 +20,11 @@ public class GameCharacter {
 
     //for javaBeans
     public GameCharacter() { 
-        this.deck = new ArrayList<Card>();
+        this.deck = new Deck();
     }
 
     public GameCharacter(int level, String firstName, String lastName, String title, int age) {
-        this.deck = new ArrayList<Card>(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
+        this.deck = new Deck(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
                 Card.GOOD, Card.GOOD, Card.GOOD));
         this.firstName = checkNotNull(firstName);
         this.lastName = checkNotNull(lastName);
@@ -31,12 +33,12 @@ public class GameCharacter {
     }
 
     public GameCharacter(String name) {
-        this.deck = new ArrayList<Card>(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
+        this.deck = new Deck(Arrays.asList(Card.GOOD, Card.GOOD, Card.GOOD, Card.GOOD,
                 Card.GOOD, Card.GOOD, Card.GOOD));
         this.firstName = checkNotNull(name);
     }
     
-    public GameCharacter(String name, List<Card> deck) {
+    public GameCharacter(String name, Deck deck) {
         this.deck = deck;
         this.firstName = checkNotNull(name);
     } 
@@ -49,7 +51,7 @@ public class GameCharacter {
         return age;
     }
     
-    public List<Card> getDeck() {
+    public Deck getDeck() {
         return this.deck;
     }
     
@@ -58,7 +60,11 @@ public class GameCharacter {
     }
     
     public String getFullName() {
-        return firstName + " " + lastName;
+        String retVal = firstName;
+        if (lastName != null) {
+            retVal = retVal + " " + lastName;
+        }
+        return retVal;
     }
     
     public String getLastName() {
@@ -78,7 +84,7 @@ public class GameCharacter {
     }
     
     //for bean
-    public void setDeck(List<Card> deck) {
+    public void setDeck(Deck deck) {
         this.deck = deck;
     }
     
@@ -97,5 +103,13 @@ public class GameCharacter {
     
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }

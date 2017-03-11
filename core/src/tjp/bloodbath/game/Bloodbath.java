@@ -1,11 +1,6 @@
 package tjp.bloodbath.game;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import org.yaml.snakeyaml.Yaml;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 
 import tjp.bloodbath.screens.TitleScreen;
 import tjp.wiji.drawing.BitmapContext;

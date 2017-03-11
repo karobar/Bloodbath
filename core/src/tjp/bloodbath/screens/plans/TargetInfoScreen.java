@@ -1,8 +1,9 @@
-package tjp.bloodbath.screens;
+package tjp.bloodbath.screens.plans;
 
 import com.badlogic.gdx.Input.Keys;
 
 import tjp.bloodbath.game.GameCharacter;
+import tjp.bloodbath.game.Save;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -15,11 +16,11 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-public class TargetInfoScreen extends Screen {    
-    public TargetInfoScreen(BitmapContext graphicsContext, ScreenContext screenContext, 
+public class TargetInfoScreen extends AbstractPlanScreen {    
+    public TargetInfoScreen(BitmapContext graphicsContext, ScreenContext screenContext, Save save,
             GameCharacter target) {
 
-        super(graphicsContext, screenContext);
+        super(graphicsContext, screenContext, save);
         
         ScreenTextList tutText = ScreenTextList.newBuilder()
                 .bitmapContext(graphicsContext)
@@ -51,10 +52,4 @@ public class TargetInfoScreen extends Screen {
                 break;
         } 
     }
-
-    @Override
-    protected void handleFrameChange() { }
-
-    @Override
-    public void stepToScreenTrigger() { }
 }

@@ -85,7 +85,7 @@ public class EnterTimeScreen extends Screen {
                 stepScreenBackwards();
                 break;
             case Keys.ENTER:
-                save.addTime(input.getNumberOfSeconds());
+                save.addTime(input.getNumberOfSeconds() / 6);
                 stepScreenBackwards();
                 break;
         } 

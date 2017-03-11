@@ -1,6 +1,4 @@
-package tjp.bloodbath.screens;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+package tjp.bloodbath.screens.plans;
 
 import com.badlogic.gdx.Input.Keys;
 
@@ -9,7 +7,6 @@ import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
 import tjp.wiji.gui.GUItext;
-import tjp.wiji.gui.Screen;
 import tjp.wiji.gui.ScreenContext;
 import tjp.wiji.gui.ScreenTextList;
 import tjp.wiji.gui.Timer;
@@ -17,25 +14,14 @@ import tjp.wiji.representations.Graphic;
 import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
-public class PlanScreen extends Screen { 
+public class PlanScreen extends AbstractPlanScreen { 
     ScreenTextList mainMenuChoices;
-    private final Timer timer = new Timer("00:00", true);
-    private Save save;
     
     private static final GUItext VIEW_INTEL = new GUItext("VIEW INTEL");
     private static final GUItext EXIT = new GUItext("EXIT");
     
     public PlanScreen(BitmapContext bitmapContext, ScreenContext screenContext, Save save) {
-        super(bitmapContext, screenContext);
-        this.save = checkNotNull(save);
-               
-        ScreenTextList timerList = ScreenTextList.newBuilder()
-                .bitmapContext(bitmapContext)
-                .centered()
-                .y(0)
-                .build();
-        timerList.add(timer);
-        addGUIelement(timerList);
+        super(bitmapContext, screenContext, save);
         
         mainMenuChoices = ScreenTextList.newBuilder()
                 .bitmapContext(bitmapContext)
@@ -72,19 +58,8 @@ public class PlanScreen extends Screen {
         if (mainMenuChoices.getCurrentChoice().equals(EXIT)) {
             stepScreenBackwards();
         } else if (mainMenuChoices.getCurrentChoice().equals(VIEW_INTEL)) {
-            stepScreenForwards(new ViewIntelScreen(getBitmapContext(), getScreenContext(), timer, 
-                    save));
+            stepScreenForwards(
+                    new ViewIntelScreen(getBitmapContext(), getScreenContext(), getSave()));
         } 
-    }
-
-    @Override
-    protected void handleFrameChange() {
-        save.decrementTime();
-        timer.setTime(save.getLoggedTime());
-    }
-
-    @Override
-    public void stepToScreenTrigger() {
-        timer.setTime(save.getLoggedTime());
     }
 }

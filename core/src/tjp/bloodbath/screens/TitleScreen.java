@@ -3,6 +3,7 @@ package tjp.bloodbath.screens;
 import com.badlogic.gdx.Input.Keys;
 import tjp.bloodbath.game.Bloodbath;
 import tjp.bloodbath.game.Save;
+import tjp.bloodbath.screens.plans.PlanScreen;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -27,7 +28,6 @@ public class TitleScreen extends Screen {
     private static final GUItext NEWLINE = new GUItext("", true);
     
     private static final GUItext TUTORIAL = new GUItext("TUTORIAL");
-    private static final GUItext OPTIONS   = new GUItext("OPTIONS");
     private static final GUItext EXIT_GAME = new GUItext("EXIT");
     
     private Bloodbath mainFrame;
@@ -60,7 +60,6 @@ public class TitleScreen extends Screen {
         mainMenuChoices.add(NEWLINE);
         
         mainMenuChoices.add(TUTORIAL);
-        mainMenuChoices.add(OPTIONS);
         mainMenuChoices.add(EXIT_GAME);
         addGUIelement(mainMenuChoices);
     }
@@ -107,8 +106,6 @@ public class TitleScreen extends Screen {
     private void handleSelection() {     
         if (mainMenuChoices.getCurrentChoice().equals(TUTORIAL)) {
             stepScreenForwards(new TutorialScreen(getBitmapContext(), getScreenContext()));
-        } else if (mainMenuChoices.getCurrentChoice().equals(OPTIONS)) {
-            stepScreenForwards(new OptionsScreen(getBitmapContext(), getScreenContext()));
         } else if (mainMenuChoices.getCurrentChoice().equals(EXIT_GAME)) {
             mainFrame.dispose(); 
         } else if (mainMenuChoices.getCurrentChoice().equals(enterTime)) {

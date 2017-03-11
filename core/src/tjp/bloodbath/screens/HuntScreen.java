@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input.Keys;
 
 import tjp.bloodbath.game.Card;
 import tjp.bloodbath.game.Save;
+import tjp.bloodbath.screens.plans.LootScreen;
+import tjp.bloodbath.screens.plans.PlanScreen;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -17,7 +19,8 @@ import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
 public class HuntScreen extends Screen { 
-    private final static int HUNT_SECONDS = 1500;
+    //private final static int HUNT_SECONDS = 1500;
+    private final static int HUNT_SECONDS = 2;
     
     int secondsRemaining = HUNT_SECONDS;
     
@@ -114,13 +117,17 @@ public class HuntScreen extends Screen {
         secondsRemaining--;
         timer.setTime(secondsRemaining);
         if (secondsRemaining < 1) {
-            save.addTime(HUNT_SECONDS);
-            stepScreenBackwards();
+            completedTimeTrigger();
         }
         backgroundColor = computeBackgroundColor(); 
         
         remainingFleeTime--;
         fleeTimer.setText(getFleeText());
+    }
+    
+    private void completedTimeTrigger() {
+        save.addTime(HUNT_SECONDS);
+        shadowStepForwards(new LootScreen(getBitmapContext(), getScreenContext(), save));
     }
 
     @Override
