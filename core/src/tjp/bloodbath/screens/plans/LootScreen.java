@@ -10,6 +10,7 @@ import tjp.bloodbath.game.Deck;
 import tjp.bloodbath.game.GameCharacter;
 import tjp.bloodbath.game.Save;
 import tjp.bloodbath.game.Card.CardType;
+import tjp.bloodbath.game.Card.StrengthAspect;
 import tjp.wiji.drawing.BitmapContext;
 import tjp.wiji.drawing.Color;
 import tjp.wiji.event.GameEvent;
@@ -67,7 +68,9 @@ public class LootScreen extends AbstractPlanScreen {
                 .centered().y(18)
                 .build();
 
-        if (winBattle()) {
+        Collection<Card> rivalDeck = target.getDeck().draw(HAND_SIZE);
+        target.getDeck().reconstitute();
+        if (winBattle(hand, rivalDeck)) {
             tutText.add(new GUItext(target.getFullName() + ", " + target.getTitle() + ", "
                     + "has been put to rest."));
             save.killCharacter(namedChar, target);
@@ -80,6 +83,11 @@ public class LootScreen extends AbstractPlanScreen {
             mainCharacter.addCard(new Card(CardType.WOUND, "wound"));
         }
         addGUIelement(lootChoices);
+        
+        Deck deck = checkNotNull(getSave().getMainCharacter().getDeck());
+        Collection<Card> newHand = deck.draw(HAND_SIZE);
+        getSave().setSavedHand(newHand);
+        deck.reconstitute();
     }
     
     private void addLoot(int numCards, GameCharacter target, LongList<Card> lootChoices) {
@@ -107,8 +115,75 @@ public class LootScreen extends AbstractPlanScreen {
         return numberOfMortalWounds > 1 || numWounds == hand.size();
     }
     
-    private boolean winBattle() {
-        return true;
+    private boolean winBattle(Collection<Card> playerHand, Collection<Card> rivalHand) {
+        double versusBat = 0;
+        double versusBlood = 0;
+        double versusMist = 0;
+        double versusWolf = 0;
+        
+        for(Card card : playerHand) {
+            if (card.getType() == Card.CardType.STRENGTH) {
+                if (card.getAspect() == StrengthAspect.BAT) {
+                    versusBat += card.getFactor();
+                    versusBlood += card.getFactor() * 3;
+                    versusMist += card.getFactor();
+                    versusWolf += 0.5 * card.getFactor();
+                } else if (card.getAspect() == StrengthAspect.BLOOD) {
+                    versusBat += card.getFactor() * 0.5;
+                    versusBlood += card.getFactor();
+                    versusMist += card.getFactor() * 3;
+                    versusWolf += card.getFactor();
+                } else if (card.getAspect() == StrengthAspect.MIST) {
+                    versusBat += card.getFactor() ;
+                    versusBlood += card.getFactor() * 0.5;
+                    versusMist += card.getFactor() ;
+                    versusWolf += card.getFactor() * 3;
+                } else if (card.getAspect() == StrengthAspect.WOLF) {
+                    versusBat += card.getFactor() * 3;
+                    versusBlood += card.getFactor();
+                    versusMist += card.getFactor() * 0.5;
+                    versusWolf += card.getFactor();
+                } else { 
+                    versusBat += card.getFactor();
+                    versusBlood += card.getFactor();
+                    versusMist += card.getFactor();
+                    versusWolf += card.getFactor();
+                }
+            }
+        }
+        
+        for(Card card : rivalHand) {
+            if (card.getType() == Card.CardType.STRENGTH) {
+                if (card.getAspect() == StrengthAspect.BAT) {
+                    versusBat -= card.getFactor();
+                    versusBlood -= card.getFactor() * 3;
+                    versusMist -= card.getFactor();
+                    versusWolf -= card.getFactor() * 0.5;
+                } else if (card.getAspect() == StrengthAspect.BLOOD) {
+                    versusBat -= card.getFactor() * 0.5;
+                    versusBlood -= card.getFactor();
+                    versusMist -= card.getFactor() * 3;
+                    versusWolf -= card.getFactor();
+                } else if (card.getAspect() == StrengthAspect.MIST) {
+                    versusBat -= card.getFactor() ;
+                    versusBlood -= card.getFactor() * 0.5;
+                    versusMist -= card.getFactor() ;
+                    versusWolf -= card.getFactor() * 3;
+                } else if (card.getAspect() == StrengthAspect.WOLF) {
+                    versusBat -= card.getFactor() * 3;
+                    versusBlood -= card.getFactor();
+                    versusMist -= card.getFactor() * 0.5;
+                    versusWolf -= card.getFactor();
+                } else { 
+                    versusBat -= card.getFactor();
+                    versusBlood -= card.getFactor();
+                    versusMist -= card.getFactor();
+                    versusWolf -= card.getFactor();
+                }
+            }
+        }
+        
+        return versusBat + versusBlood + versusMist + versusWolf >= 0;
     }
     
     @Override

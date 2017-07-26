@@ -20,9 +20,22 @@ public class Card implements Cloneable {
         }
     }
     
+    public enum StrengthAspect {
+        WOLF, BAT, MIST, BLOOD;
+    }
+    
     private String name;
     private CardType type;
+    private StrengthAspect aspect;
     
+    public StrengthAspect getAspect() {
+        return aspect;
+    }
+
+    public void setAspect(StrengthAspect aspect) {
+        this.aspect = aspect;
+    }
+
     private int factor;
     
     public int getFactor() {
@@ -43,6 +56,7 @@ public class Card implements Cloneable {
             case 1:
             case 2:
                 type = CardType.STRENGTH;
+                aspect = rollAspect();
                 break;
             case 3:
                 type = CardType.MONEY;
@@ -51,6 +65,22 @@ public class Card implements Cloneable {
         
         int fuzzer = ThreadLocalRandom.current().nextInt(1, 4);
         factor = (8 - level) * 3 + (2 - fuzzer);
+    }
+    
+    private StrengthAspect rollAspect() {
+        int roll = ThreadLocalRandom.current().nextInt(1, 5);
+        switch (roll) {
+            case 1:
+                return StrengthAspect.WOLF;
+            case 2:
+                return StrengthAspect.BAT;
+            case 3:
+                return StrengthAspect.MIST;
+            case 4:
+                return StrengthAspect.BLOOD;
+            default:
+                return StrengthAspect.BAT;
+        }
     }
     
     public Card(CardType type) {
@@ -85,7 +115,11 @@ public class Card implements Cloneable {
 
     @Override
     public String toString() {
-        return this.type.typeName + " (" + factor +")";
+        String aspectStr = "";
+        if (aspect != null) {
+            aspectStr = aspect.toString() + " ";
+        }
+        return this.type.typeName + " (" + aspectStr + factor +")";
     }
 }
 

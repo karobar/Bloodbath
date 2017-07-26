@@ -11,7 +11,6 @@ public class Bloodbath extends MainFrame {
     private TitleScreen titleScreen;
     
     private final static Yaml YAML = new Yaml();
-    
 
     
     public Bloodbath(final BitmapContext bitmapContext,

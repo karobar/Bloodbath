@@ -17,6 +17,7 @@ import tjp.wiji.representations.ImageRepresentation;
 public class PlanScreen extends AbstractPlanScreen { 
     ScreenTextList mainMenuChoices;
     
+    private static final GUItext CONSIDER_OPTIONS = new GUItext("CONSIDER OPTIONS");
     private static final GUItext VIEW_INTEL = new GUItext("VIEW INTEL");
     private static final GUItext EXIT = new GUItext("EXIT");
     
@@ -28,6 +29,7 @@ public class PlanScreen extends AbstractPlanScreen {
                 .inactiveColor(Color.WHITE).activeColor(Color.RED)
                 .centered().y(11)
                 .build();
+        mainMenuChoices.add(CONSIDER_OPTIONS);
         mainMenuChoices.add(VIEW_INTEL);
         mainMenuChoices.add(EXIT);
         addGUIelement(mainMenuChoices);
@@ -60,7 +62,10 @@ public class PlanScreen extends AbstractPlanScreen {
         } else if (mainMenuChoices.getCurrentChoice().equals(VIEW_INTEL)) {
             stepScreenForwards(
                     new ViewIntelScreen(getBitmapContext(), getScreenContext(), getSave()));
-        } 
+        } else if (mainMenuChoices.getCurrentChoice().equals(CONSIDER_OPTIONS)) {
+            stepScreenForwards(
+                    new ManageScreen(getBitmapContext(), getScreenContext(), getSave()));
+        }
     }
     
     @Override

@@ -19,8 +19,7 @@ import tjp.wiji.representations.GraphicRepresentation;
 import tjp.wiji.representations.ImageRepresentation;
 
 public class HuntScreen extends Screen { 
-    //private final static int HUNT_SECONDS = 1500;
-    private final static int HUNT_SECONDS = 2;
+    private final static int HUNT_SECONDS = 1500;
     
     int secondsRemaining = HUNT_SECONDS;
     
@@ -126,7 +125,7 @@ public class HuntScreen extends Screen {
     }
     
     private void completedTimeTrigger() {
-        save.addTime(HUNT_SECONDS);
+        save.addTime(300);
         shadowStepForwards(new LootScreen(getBitmapContext(), getScreenContext(), save));
     }
 
